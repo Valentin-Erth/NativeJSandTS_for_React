@@ -37,5 +37,9 @@ test("array test", () => {
 const admins=users
     admins.push({name:"Banug",age:15})
     expect(users[2]).toEqual({name:"Banug",age:15});
-
+})
+test("sort array test",()=>{
+    const letters=["c","d","a","z","e"]
+    letters.sort()
+    expect(letters).toEqual(["a","c","d","e","z"])
 })
