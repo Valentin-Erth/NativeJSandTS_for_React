@@ -1,7 +1,7 @@
 import {
     addNewBooksToUser,
     moveUser,
-    moveUserToOtherHouse, removeBook, updateBook, updateCompanyTitle,
+    moveUserToOtherHouse, removeBook, updateBook, updateCompanyTitle, updateCompanyTitle2,
     upgradeUserLaptop,
     UserWitthBooksType,
     UserWitthLaptopType, WitthCompaniesType
@@ -136,4 +136,14 @@ test("update company", () => {
     expect(user.address).toBe(userCopy.address)
     expect(user.companies).not.toBe(userCopy.companies)
     expect(userCopy.companies[0].title).toBe("EPAM")
+})
+test("update company", () => {
+        let companies={
+        "Dimych": [{id:1,title:"Епам"},{id:2,title:"IT-Incubator"}],
+        "Artem": [{id:2,title:"IT-Incubator"}]
+    }
+   const copy=updateCompanyTitle2(companies, "Dimych",1, "EPAM" )
+expect(copy["Dimych"]).not.toBe(companies["Dimych"])
+    expect(copy["Artem"]).toBe(companies["Artem"])
+    expect(copy["Dimych"][0].title).toBe("EPAM")
 })

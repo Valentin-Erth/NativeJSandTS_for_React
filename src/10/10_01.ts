@@ -15,6 +15,7 @@ export type WitthCompaniesType = UserType & {
 type CompanyType={
     id:number
     title:string
+
 }
 export function moveUser(u: UserWitthLaptopType, city: string) {
     return {
@@ -57,4 +58,10 @@ export const updateCompanyTitle = (u:  WitthCompaniesType, companyId: number, ne
         companies: u.companies.map(c => c.id === companyId ?{...c,title: newTitle } : c)
     }
 )
-
+export const updateCompanyTitle2=(companies: { [key:string]: Array<CompanyType> },
+                                  userName:string,
+                                  companyID:number,
+                                  newTitle:string)=>{
+    let companyCopy = {...companies, [userName]: companies[userName].map(c=>c.id===companyID?{...c,title:newTitle}:c)}
+        return companyCopy
+}
