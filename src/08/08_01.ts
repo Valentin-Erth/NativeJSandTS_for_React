@@ -6,10 +6,10 @@ export const userObj = {
 }
 
 // users[1]
-let user={id:100500,name:"Igor"}
-users[users.id]=user;
-delete users[user.id]
-users[user.id].name="Vitay"
+// let user={id:100500,name:"Igor"}
+// users[users.id]=user;
+// delete users[user.id]
+// users[user.id].name="Vitay"
 
 export const usersArray = [
     {id: 101, name: "Dimych"},
