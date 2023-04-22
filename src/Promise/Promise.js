@@ -3,7 +3,7 @@ function randomIntFromIntarval(min, max) {
 }
 
 const findUserDB = (id) => {
-    const users = [{id: 1, name: "Dimych", friend: 3}, {id: 2, name: "Eric", friend: null}, {
+    const users = [{id: 1, name: "Dimych", friend: 4}, {id: 2, name: "Eric", friend: null}, {
         id: 3,
         name: "Mike",
         friend: 2
@@ -99,13 +99,13 @@ const axios = {
 // console.log(rejectPromise)//сразу зареджектнутый промис
 //
 // //Цепочка вызовов then
-findUserDB(2)
-    .then((user) => user.name)
-    .then(name => console.log(name))// в name получит то что вернул callback т.е. user.name. Зарезолвится только если будет резолв у promise2
-//
-axios.get("https://google.com")
-    .then(res => res.data)// этот промис возвращает data из responce
-    .then(data => console.log(data))// этот промис принимает в параметры data,то что вернул выше и тоже возвращает
+// findUserDB(2)
+//     .then((user) => user.name)
+//     .then(name => console.log(name))// в name получит то что вернул callback т.е. user.name. Зарезолвится только если будет резолв у promise2
+// //
+// axios.get("https://google.com")
+//     .then(res => res.data)// этот промис возвращает data из responce
+//     .then(data => console.log(data))// этот промис принимает в параметры data,то что вернул выше и тоже возвращает
 //
 // const makeGoogleRequest = () => {
 //     return axios.get("https://google.com")
@@ -163,7 +163,6 @@ axios.get("https://google.com")
 //     })// создание промиса с помощью класса конктруктора,тут можно сложную логику создать
 //     return promise
 //     // Promise.resolve(Math.random()) //создание промиса зарезовленного там где его не было
-//
 // }
 // getNumber().then(n => console.log(n))
 // getNumber().then(n => console.log(n))
@@ -231,3 +230,42 @@ const delay = (ms) => {//функция которая возвращает пр
 // delay(2000).then(() => console.log(2))
 // delay(3000).then(() => console.log(3))
 
+//Обработка ошибок в промисах
+// findUserDB(1)
+//     .then(user => {
+//         console.log(user.name)
+//         return user.friend
+//     })
+//     .then(friendID => findUserDB(friendID))
+//     .catch(()=>({name: "BOT Friend", friend: 3}))// Если нужна обработка ошибки сразу после реджкт то вставляем catch, который может вернуть заглушку и отдать дальше в then
+//     .then(friend1 => {
+//         console.log(friend1.name)
+//         return friend1.friend
+//     })
+//     .then(friendID => findUserDB(friendID))
+//     .then(friend2 => console.log(friend2.name))
+// .catch(error=>alert(error))
+
+async function run() {
+    try {
+        let user = await findUserDB(1) //дожидаемся резуьтата резолва промиса и присваиваем результат переменной. выполнение строчка за строчкой, нет колбэков
+        console.log(user.name)
+        try {// обработка ошибок с помощью контрукции try..catch,которая позволяет «ловить» ошибки и вместо падения делать что-то более осмысленное
+            let friend1 = await findUserDB(user.friend)
+        } catch (error) {
+            console.log(error)
+            friend1={name: "BOT Friend", friend: 3}
+        }
+        console.log(friend1.name)
+        let friend2 = await findUserDB(friend1.friend)
+        console.log(friend2.name)
+    } catch (error){
+        console.log(error)
+    }
+}
+
+run()
+
+async function xxx(){}//любая асинхронная функция возращает промис
+let a=xxx()
+console.log(a)
