@@ -1,36 +1,78 @@
-function randomIntFromIntarval(min,max){
-    return Math.floor(Math.random()*(max-min+1)+min)
+function randomIntFromIntarval(min, max) {
+    return Math.floor(Math.random() * (max - min + 1) + min)
 }
-const findUserDB=(id)=>{
-    const users=[{id:1,name:"Dimych",friend: 3},{id:2,name:"Eric",friend: null},{id:3,name:"Mike",friend: 2}]
-    return new Promise((res,rej)=>{
-        setTimeout(()=>{
-            let user=users.find(u=>u.id===id)
-            if(user==null){
+
+const findUserDB = (id) => {
+    const users = [{id: 1, name: "Dimych", friend: 3}, {id: 2, name: "Eric", friend: null}, {
+        id: 3,
+        name: "Mike",
+        friend: 2
+    }]
+    return new Promise((res, rej) => {
+        setTimeout(() => {
+            let user = users.find(u => u.id === id)
+            if (user == null) {
                 rej("user not found")
-            }else{
+            } else {
                 res(user)
             }
-        },randomIntFromIntarval(500,1500))
+        }, randomIntFromIntarval(500, 1500))
     })
 }
-
+const axios = {
+    _fake(url, data) {
+        return new Promise((resolve) => {
+            setTimeout(() => {
+                let responseData = {
+                    text: `${url} lovws yuo`
+                }
+                if (url.indexOf("it-kamasutra") > 0) {
+                    responseData = {
+                        requestedCount: data.count,
+                        message: "we will prepare students for you"
+                    }
+                } else if (url.indexOf('google') > 0) {
+                    responseData = {
+                        vacancies: 12
+                    }
+                } else if (url.indexOf('microsoft') > 0) {
+                    responseData = {
+                        vacancies: 21
+                    }
+                }
+                resolve({
+                    request: {},
+                    status: 200,
+                    headers: {},
+                    config: {},
+                    data: responseData
+                })
+            }, randomIntFromIntarval(1, 5) * 1000)
+        })
+    },
+    post(url, data) {
+        return this._fake(url, data)
+    },
+    get(url, data) {
+        return this._fake(url, data)
+    }
+}
 
 // const promise1 = axios.get("https://google.com")//запрос на сервер
-// promise1.then((data) => {
-//     console.log(data)
-// })
-const promise2 = findUserDB(2)//запрос в БД
-promise2
-    .then((user) => {
-        console.log(user)
-    })
-    .catch((error) => {
-        console.warn(error)
-    })
-    .finally(() => {
-        console.log("finish")
-    })
+// // promise1.then((data) => {
+// //     console.log(data.data)
+// // })
+// const promise2 = findUserDB(1)//запрос в БД
+// promise2
+//     .then((user) => {
+//         console.log(user)
+//     })
+//     .catch((error) => {
+//         console.warn(error)
+//     })
+//     .finally(() => {
+//         console.log("finish")
+//     })
 //
 // const otherPromise = Promise.all([promise1, promise2])
 // otherPromise.then((result) => {
@@ -41,7 +83,7 @@ promise2
 //     .catch(() => {
 //         console.log("Try later. inicialization failed")
 //     })
-//
+// //
 // const resolvedPromise = Promise.resolve([1, 2, 3, 4])
 // console.log(resolvedPromise)// сразу зарезовленный промис. Как заплатка если сервер не готов
 //
@@ -57,13 +99,13 @@ promise2
 // console.log(rejectPromise)//сразу зареджектнутый промис
 //
 // //Цепочка вызовов then
-// findUserDB(2)
-//     .then((user) => user.name)
-//     .then(name => console.log(name))// в name получит то что вернул callback т.е. user.name. Зарезолвится только если будет резолв у promise2
+findUserDB(2)
+    .then((user) => user.name)
+    .then(name => console.log(name))// в name получит то что вернул callback т.е. user.name. Зарезолвится только если будет резолв у promise2
 //
-// axios.get("https://google.com")
-//     .then(res => res.data)// этот промис возвращает data из responce
-//     .then(data => console.log(data))// этот промис принимает в параметры data,то что вернул выше и тоже возвращает
+axios.get("https://google.com")
+    .then(res => res.data)// этот промис возвращает data из responce
+    .then(data => console.log(data))// этот промис принимает в параметры data,то что вернул выше и тоже возвращает
 //
 // const makeGoogleRequest = () => {
 //     return axios.get("https://google.com")
@@ -171,17 +213,21 @@ promise2
 //     console.log(data)
 // }
 
-const delay=(ms)=>{//функция которая возвращает промис и резолвиться через переданное кол-во ms
-    return new Promise((res,rej)=>{
-setTimeout(()=>res(),ms)// в теле промиса функция таймер, которая принимает ms из параметров
+const delay = (ms) => {//функция которая возвращает промис и резолвиться через переданное кол-во ms
+    return new Promise((res, rej) => {
+        setTimeout(() => res(), ms)// в теле промиса функция таймер, которая принимает ms из параметров
     })
 }
-async function run(){
-    await delay(1000)// ожидаем резолв промиса
-    console.log(1)
-    await delay(1000)
-    console.log(2)
-    await delay(1000)
-    console.log(3)
-}
-run()
+// async function run(){
+//     await delay(1000)// ожидаем резолв промиса
+//     console.log(1)
+//     await delay(1000)
+//     console.log(2)
+//     await delay(1000)
+//     console.log(3)
+// }
+// run()
+// delay(1000).then(() => console.log(1))
+// delay(2000).then(() => console.log(2))
+// delay(3000).then(() => console.log(3))
+
