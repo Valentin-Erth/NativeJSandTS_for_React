@@ -217,15 +217,15 @@ const delay = (ms) => {//функция которая возвращает пр
         setTimeout(() => res(), ms)// в теле промиса функция таймер, которая принимает ms из параметров
     })
 }
-// async function run(){
-//     await delay(1000)// ожидаем резолв промиса
-//     console.log(1)
-//     await delay(1000)
-//     console.log(2)
-//     await delay(1000)
-//     console.log(3)
-// }
-// run()
+async function run(){
+    await delay(1000)// ожидаем резолв промиса
+    console.log(1)
+    await delay(1000)
+    console.log(2)
+    await delay(1000)
+    console.log(3)
+}
+run()
 // delay(1000).then(() => console.log(1))
 // delay(2000).then(() => console.log(2))
 // delay(3000).then(() => console.log(3))
@@ -246,25 +246,25 @@ const delay = (ms) => {//функция которая возвращает пр
 //     .then(friend2 => console.log(friend2.name))
 // .catch(error=>alert(error))
 
-async function run() {
-    try {
-        let user = await findUserDB(1) //дожидаемся резуьтата резолва промиса и присваиваем результат переменной. выполнение строчка за строчкой, нет колбэков
-        console.log(user.name)
-        try {// обработка ошибок с помощью контрукции try..catch,которая позволяет «ловить» ошибки и вместо падения делать что-то более осмысленное
-            let friend1 = await findUserDB(user.friend)
-        } catch (error) {
-            console.log(error)
-            friend1={name: "BOT Friend", friend: 3}
-        }
-        console.log(friend1.name)
-        let friend2 = await findUserDB(friend1.friend)
-        console.log(friend2.name)
-    } catch (error){
-        console.log(error)
-    }
-}
-
-run()
+// async function run() {
+//     try {
+//         let user = await findUserDB(1) //дожидаемся резуьтата резолва промиса и присваиваем результат переменной. выполнение строчка за строчкой, нет колбэков
+//         console.log(user.name)
+//         try {// обработка ошибок с помощью контрукции try..catch,которая позволяет «ловить» ошибки и вместо падения делать что-то более осмысленное
+//             let friend1 = await findUserDB(user.friend)
+//         } catch (error) {
+//             console.log(error)
+//             friend1={name: "BOT Friend", friend: 3}
+//         }
+//         console.log(friend1.name)
+//         let friend2 = await findUserDB(friend1.friend)
+//         console.log(friend2.name)
+//     } catch (error){
+//         console.log(error)
+//     }
+// }
+//
+// run()
 
 async function xxx(){}//любая асинхронная функция возращает промис
 let a=xxx()

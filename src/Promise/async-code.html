@@ -1,0 +1,108 @@
+<script>
+    // создается промис с помощью функции конструктора,он же class. Нужны когда асинхронный код нужен.
+    // let axios = {
+    //     get() {
+    //         return new Promise((resolve, reject) => {
+    //             setTimeout(() => {
+    //                 resolve({message: "YoYoYo"})
+    //                 //reject("Error")
+    //             }, 3000)
+    //         })
+    //     }
+    // }
+    // let promise = axios.get()
+    //     .then((data) => {
+    //         console.log(data)
+    //         return data.message// То что чем зарезолвиться промис и вернет колбэк т.е. "message" попадет в параметры следющего then
+    //     })// каждый раз возращается новый зарезолвенный промис. Резолвяться один за другим
+    //     .then((res) => {
+    //         console.log(res)
+    //     })
+    //     .then(() => {
+    //         console.log(2)
+    //     })
+    //     .catch(err => console.log(err))// then подписываемся на промис и вызывывается колбэк когда промис зарезолвиться
+
+    // let myPromise = new Promise((resolve) => {
+    //     setTimeout(()=>{
+    //         alert('Hello');
+    //         resolve();
+    //     },2000)
+    // });
+    // myPromise.then(( ) => {
+    //     console.log("myPromise resolved, Im know");
+    // })
+
+    // let myPromise1 = new Promise((resolve) => {
+    //    setTimeout(()=>{
+    //        let num=Math.floor(Math.random()*10)
+    //         resolve(num);
+    //     },3000)
+    // });
+    // myPromise1.then((number )=>{
+    //     console.log("myPromise resolved"+ number )
+    // })
+    // myPromise1.then((number )=>{
+    //     console.log("myPromise resolved"+ number )
+    // })
+    // console.log("finish")
+
+    function doAfter(ms) {
+        return new Promise((resolve) => {
+            setTimeout(() => {
+                resolve()
+            }, ms * 1000)
+        })
+    }
+
+    // doAfter(5000).then(()=>console.log("show 5s"))
+    // doAfter(3000).then(()=>console.log("show 3s"))
+    // doAfter(7000).then(()=>console.log("show 7s"))
+
+    // let promise3 = doAfter(3);
+    // promise3.then( () => setTimeout(()=>console.log('я сработал через 3 секунд'),5000)  );
+    // promise3.then( () => console.log('gggg 3 s') );
+    // promise3.then( () => console.log('fffff') );
+
+    let pr = new Promise((resolve) => {
+        let i = 0;
+        setInterval(() => {
+            i++
+            resolve(i)
+        }, 5000)
+    })
+    // let pr1 = doAfter(3);
+    // let pr2 = pr1.then( () => console.log('Мой промис зарезолвился') );
+    // pr2.then( () => console.log('Мой промис тоже зарезолвился следом за pr1'));
+
+    // let pr1 = doAfter(3);
+    // let pr2 = pr1.then( () => console.log('Мой промис зарезолвился') );
+    // let something = pr2.then( () => console.log('Мой промис зарезолвился следом за pr1'));
+    let prffff = new Promise((resolve) => {
+        let data = {
+            cities: [{title: "Minsk"}, {title: "Kiev"}],
+            website: "it-kamasutra.com"
+        };
+        resolve(data);
+    });
+
+    // let prdata = prffff.then(data => {
+    //     console.log(data);
+    //     return data.website
+    // })
+    // let prwebsite = prdata.then(website => {
+    //     console.log(website);
+    // })
+
+    let pr1 = doAfter(4); // один промис
+    let pr2 = doAfter(7); // второй промис
+
+    pr1.then( () => console.log("pr1 resolved") ); // индивидуально подписываемся на каждый
+    pr2.then( () => console.log("pr2 resolved") );
+
+    let aggregatedPromise = Promise.all([pr1, pr2]); // получаем общий промис
+
+    aggregatedPromise.then( () => console.log("pr1 and pr2 resolved")); // сработает наш подписчик ТОЛЬКО когда все промисы, переданные в массиве в all будут resolved
+
+
+</script>
